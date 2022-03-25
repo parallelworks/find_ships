@@ -1,0 +1,18 @@
+{
+    "cpu_executor": {
+        "POOL": "gcpclustergen2",
+        "PARTITION": "compute",
+        "NODES_PER_BLOCK": 1,
+        "CORES_PER_NODE": 4,
+        "MIN_BLOCKS": 0,
+        "MAX_BLOCKS": 10,
+        "WALLTIME": "02:00:00",
+        "REMOTE_CONDA_ENV": "parsl_py39",
+        "REMOTE_CONDA_DIR": "/contrib/Alvaro.Vidal/miniconda3",
+        "RUN_DIR": "/contrib/Alvaro.Vidal/tmp",
+        "WORKER_LOGDIR_ROOT": "/contrib/Alvaro.Vidal/tmp",
+        "SSH_CHANNEL_SCRIPT_DIR": "/contrib/Alvaro.Vidal/tmp",
+        "SINGULARITY_CONTAINER_PATH": "/contrib/Alvaro.Vidal/tensorflow_latest-gpu-jupyter-extra.sif",
+        "CORES_PER_WORKER": 4
+    }
+}
