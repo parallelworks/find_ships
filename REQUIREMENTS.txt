@@ -1,1 +1,3 @@
-Pandas need to be installed in local parsl_py39 environment
+conda activate parsl_py39
+conda install pandas
+pip install parsl[monitoring]

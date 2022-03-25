@@ -7,6 +7,9 @@
         "WORKER_LOGDIR_ROOT": "/contrib/Alvaro.Vidal/tmp",
         "SSH_CHANNEL_SCRIPT_DIR": "/contrib/Alvaro.Vidal/tmp",
         "SINGULARITY_CONTAINER_PATH": "/contrib/Alvaro.Vidal/tensorflow_latest-gpu-jupyter-extra.sif",
-        "CORES_PER_WORKER": 0.1
+        "CORES_PER_WORKER": 0.1,
+        "HOST_IP": "34.68.62.125",
+        "WORKER_PORT_1": 55387,
+        "WORKER_PORT_2": 55388
     }
 }

@@ -10,6 +10,9 @@ from parsl.channels import SSHChannel
 from parsl.providers import SlurmProvider, LocalProvider
 from parsl.executors import HighThroughputExecutor
 
+from parsl.addresses import address_by_hostname
+from parsl.monitoring.monitoring import MonitoringHub
+
 import pandas as pd
 
 import parsl_utils
@@ -106,7 +109,11 @@ if __name__ == '__main__':
                     )
                 )
             )
-        ]
+        ],
+        monitoring = MonitoringHub(
+           hub_address = address_by_hostname(),
+           resource_monitoring_interval = 5,
+       ),
     )
 
     print('Loading Parsl Config', flush = True)
@@ -116,8 +123,8 @@ if __name__ == '__main__':
     scheme_imgdir_out = args['imgdir_out'].split(':')[0]
     if scheme_imgdir_out != 'pw':
         raise(Exception('Only pw scheme is supported for the imgdir_out parameter!'))
-    imgdir_out = args['imgdir_out'].split(':')[1]
-    os.makedirs(imgdir_out.format(cwd = os.getcwd()), exist_ok = True)
+    imgdir_out = args['imgdir_out'].split(':')[1].format(cwd = os.getcwd())
+    os.makedirs(imgdir_out, exist_ok = True)
 
     # Find ships in image:
     scheme_imgdir = args['imgdir'].split(':')[0]
@@ -212,7 +219,7 @@ if __name__ == '__main__':
             dex_dict_row(img, img_out) for img, img_out in zip(img_paths, img_paths_out)
         ]
     )
-    df_dex.to_csv(dex_csv, index = False)
+    dex_df.to_csv(dex_csv, index = False)
 
     print('Creating HTML file ' + dex_html, flush = True)
     dex_html = open(dex_html, 'w')
