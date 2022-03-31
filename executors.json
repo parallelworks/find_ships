@@ -1,15 +1,16 @@
 {
     "cpu_executor": {
         "POOL": "koehr_cpu",
-        "REMOTE_CONDA_ENV": "parsl_py39",
-        "REMOTE_CONDA_DIR": "/contrib/Alvaro.Vidal/miniconda3",
-        "RUN_DIR": "/contrib/Alvaro.Vidal/tmp",
-        "WORKER_LOGDIR_ROOT": "/contrib/Alvaro.Vidal/tmp",
-        "SSH_CHANNEL_SCRIPT_DIR": "/contrib/Alvaro.Vidal/tmp",
+        "CONDA_ENV": "parsl_py39",
+        "CONDA_DIR": "/home/Alvaro.Vidal/miniconda3",
+        "RUN_DIR": "/home/Alvaro.Vidal/tmp",
+        "WORKER_LOGDIR_ROOT": "/home/Alvaro.Vidal/tmp",
+        "SSH_CHANNEL_SCRIPT_DIR": "/home/Alvaro.Vidal/tmp",
+        "CREATE_SINGULARITY_CONTAINER": "true",
         "SINGULARITY_CONTAINER_PATH": "/contrib/Alvaro.Vidal/tensorflow_latest-gpu-jupyter-extra.sif",
         "CORES_PER_WORKER": 0.1,
-        "HOST_IP": "34.68.62.125",
-        "WORKER_PORT_1": 55387,
-        "WORKER_PORT_2": 55388
+        "INSTALL_CONDA": "true",
+        "LOCAL_CONDA_YAML": "./requirements/conda_env.yaml",
+        "LOCAL_SINGULARITY_FILE": "./requirements/singularity.file"
     }
 }

@@ -1,3 +1,0 @@
-conda activate parsl_py39
-conda install pandas
-pip install parsl[monitoring]

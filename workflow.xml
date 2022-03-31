@@ -1,16 +1,23 @@
-<tool id='train_ship_finder' name='train_ship_finder'>
+<tool id='find_ships' name='find_ships'>
   <command interpreter='parsl'>main_wrapper.py</command>
   <inputs>
     <section name='find_ships' type='section' title='Find Ships' expanded='true'>
-        <param name='imgdir' label='Input image directory' type='text' help='Path to directory with PNG images' value='pw:///pw/storage/ships-in-satellite-imagery/scenes' width='50%_none'></param>
-        <param name='model_dir' label='Model directory' type='text' help='Path model directory with saved model and model metrics' value='pw:///pw/storage/ships-in-satellite-imagery/model_dir' width='50%_none'></param>
-        <param name='imgdir_out' label='Output image directory' type='text' help='Path to output directory with PNG images' value='pw://{cwd}/scenes-processed' width='50%_none'></param>
+      <param name='imgdir' label='Input image directory' type='text' help='Path to directory with PNG images' value='pw:///pw/storage/ships-in-satellite-imagery/scenes' width='50%_none'>
+      </param>
+      <param name='model_dir' label='Model directory' type='text' help='Path model directory with saved model and model metrics' value='pw:///pw/storage/ships-in-satellite-imagery/model_dir' width='50%_none'>
+      </param>
+      <param name='imgdir_out' label='Output image directory' type='text' help='Path to output directory with PNG images' value='pw://{cwd}/scenes-processed' width='50%_none'>
+      </param>
     </section>
-    <section name='srun' type='section' title='Slurm' expanded='true'>
-        <param name='nodes' label='Number of nodes per image' type='integer' min='1' max='10' step='1' value='1' help='srun --nodes option' width='50%_none%' optional='true'></param>
-        <param name='ntasks_per_node' label='Number of tasks per node' type='integer' min='1' max='10' step='1' value='1' help='srun --ntasks-per-node option' width='50%_none%' optional='true'></param>
-        <param name='partition' label='Partition name' type='text' help='srun --partition option' value='compute' width='50%_none'></param>
-        <param name='walltime' label='Partition name' type='text' help='srun --partition option' value='01:00:00' width='50%_none'></param>
+    <section name='srun' type='section' title='Slurm' expanded='false'>
+      <param name='nodes' label='Number of nodes per image' type='integer' min='1' max='10' step='1' value='1' help='srun --nodes option' width='50%_none%' optional='true'>
+      </param>
+      <param name='ntasks_per_node' label='Number of tasks per node' type='integer' min='1' max='10' step='1' value='1' help='srun --ntasks-per-node option' width='50%_none%' optional='true'>
+      </param>
+      <param name='partition' label='Partition name' type='text' help='srun --partition option' value='compute' width='50%_none'>
+      </param>
+      <param name='walltime' label='Partition name' type='text' help='srun --partition option' value='01:00:00' width='50%_none'>
+      </param>
     </section>
   </inputs>
   <outputs>

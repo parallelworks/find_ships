@@ -56,7 +56,7 @@ def find_ships(run_dir, path_to_sing, find_script, img_path, model_dir, img_path
 
     return '''
         cd {run_dir}
-        srun --nodes={nodes} --partition={partition} --ntasks-per-node={ntasks_per_node} --time={walltime} singularity exec -B `pwd`:`pwd` -B {run_dir}:{run_dir} {path_to_sing} /usr/local/bin/python {find_script} \
+        srun --nodes={nodes}-{nodes} --partition={partition} --ntasks-per-node={ntasks_per_node} --time={walltime} --exclusive singularity exec -B `pwd`:`pwd` -B {run_dir}:{run_dir} {path_to_sing} /usr/local/bin/python {find_script} \
             --img_path {img_path} \
             --model_dir {model_dir} \
             --img_path_out {img_path_out} \
@@ -97,8 +97,8 @@ if __name__ == '__main__':
                 worker_logdir_root = exec_conf['cpu_executor']['WORKER_LOGDIR_ROOT'],  #os.getcwd() + '/parsllogs',
                 provider =  LocalProvider(
                     worker_init = 'source {conda_sh}; conda activate {conda_env}'.format(
-                        conda_sh = os.path.join(exec_conf['cpu_executor']['REMOTE_CONDA_DIR'], 'etc/profile.d/conda.sh'),
-                        conda_env = exec_conf['cpu_executor']['REMOTE_CONDA_ENV'],
+                        conda_sh = os.path.join(exec_conf['cpu_executor']['CONDA_DIR'], 'etc/profile.d/conda.sh'),
+                        conda_env = exec_conf['cpu_executor']['CONDA_ENV'],
                         run_dir = exec_conf['cpu_executor']['RUN_DIR']
                     ),
                     channel = SSHChannel(
@@ -133,8 +133,9 @@ if __name__ == '__main__':
     imgdir = args['imgdir'].split(':')[1]
 
     find_ships_futs = []
-    img_paths = glob.glob(os.path.join(imgdir, '*.png'))
+    img_paths = glob.glob(os.path.join(imgdir, '*.png'))[0:1]
     img_paths_out = [ os.path.join(imgdir_out, os.path.basename(img_path)) for img_path in img_paths ]
+
     for img_path, img_path_out in zip(img_paths, img_paths_out):
         task_id = os.path.basename(img_path).split('.')[0]
 
@@ -199,17 +200,13 @@ if __name__ == '__main__':
 
         find_ships_futs.append(find_ships_fut)
 
-        #break
-        #if len(find_ships_futs) > 1:
-        #    break
-
 
     for fut in find_ships_futs:
         fut.result()
 
 
     # Prepare design explorer files:
-    print('Creating Design Explorer files', flush = True)
+    print('\nCreating Design Explorer files', flush = True)
     dex_csv = os.path.join(os.getcwd(), 'dex.csv')
     dex_html = dex_csv.replace('csv', 'html')
 
