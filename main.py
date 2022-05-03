@@ -40,8 +40,11 @@ def dex_dict_row(img_path, img_out_path):
 with open('executors.json', 'r') as f:
     exec_conf = json.load(f)
 
+# Job runs in directory /pw/jobs/job-number
+job_number = os.path.basename(os.getcwd())
+
 @parsl_utils.parsl_wrappers.log_app
-@parsl_utils.parsl_wrappers.stage_app(exec_conf['cpu_executor']['HOST_IP'])
+@parsl_utils.parsl_wrappers.stage_app(exec_conf['cpu_executor']['HOST_USER'] + '@' + exec_conf['cpu_executor']['HOST_IP'])
 @bash_app(executors=['cpu_executor'])
 def find_ships(run_dir, path_to_sing, find_script, img_path, model_dir, img_path_out, slurm_info = {},
             inputs_dict = {}, outputs_dict = {}, stdout='std.out', stderr = 'std.err'):
@@ -103,7 +106,7 @@ if __name__ == '__main__':
                     ),
                     channel = SSHChannel(
                         hostname = exec_conf['cpu_executor']['HOST_IP'],
-                        username = os.environ['PW_USER'],
+                        username = exec_conf['cpu_executor']['HOST_USER'],
                         script_dir = exec_conf['cpu_executor']['SSH_CHANNEL_SCRIPT_DIR'], # Full path to a script dir where generated scripts could be sent to
                         key_filename = '/home/{PW_USER}/.ssh/pw_id_rsa'.format(PW_USER = os.environ['PW_USER'])
                     )
@@ -112,8 +115,8 @@ if __name__ == '__main__':
         ],
         monitoring = MonitoringHub(
            hub_address = address_by_hostname(),
-           resource_monitoring_interval = 5,
-       ),
+           resource_monitoring_interval = 5
+       )
     )
 
     print('Loading Parsl Config', flush = True)
@@ -133,7 +136,7 @@ if __name__ == '__main__':
     imgdir = args['imgdir'].split(':')[1]
 
     find_ships_futs = []
-    img_paths = glob.glob(os.path.join(imgdir, '*.png'))[0:1]
+    img_paths = glob.glob(os.path.join(imgdir, '*.png'))
     img_paths_out = [ os.path.join(imgdir_out, os.path.basename(img_path)) for img_path in img_paths ]
 
     for img_path, img_path_out in zip(img_paths, img_paths_out):

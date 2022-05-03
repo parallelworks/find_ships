@@ -1,5 +1,5 @@
-<tool id='find_ships' name='find_ships'>
-  <command interpreter='parsl'>main_wrapper.py</command>
+<tool id='Alvaro.Vidal_find_ships' name='Alvaro.Vidal_find_ships'>
+  <command interpreter='bash'>main.sh</command>
   <inputs>
     <section name='find_ships' type='section' title='Find Ships' expanded='true'>
       <param name='imgdir' label='Input image directory' type='text' help='Path to directory with PNG images' value='pw:///pw/storage/ships-in-satellite-imagery/scenes' width='50%_none'>
